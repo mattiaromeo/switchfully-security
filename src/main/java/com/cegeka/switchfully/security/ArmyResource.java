@@ -1,5 +1,6 @@
 package com.cegeka.switchfully.security;
 
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -14,6 +15,7 @@ public class ArmyResource {
     public static final String ARMY_RESOURCE_PATH = "/armies";
 
     @RequestMapping(method = RequestMethod.GET, produces = APPLICATION_JSON_VALUE ,path = "/{country}")
+    @PreAuthorize("hasAnyRole('PRIVATE','GENERAL')")
     public ArmyInfoDto getDeployedArmyInfo(@PathVariable(value = "country") String country){
         return ArmyInfoDto.armyInfoDto()
                 .withCountry(country)
@@ -22,21 +24,25 @@ public class ArmyResource {
                 .withyCoordinateOfBase(20);
     }
 
+    @PreAuthorize("hasRole('CIVILIAN')")
     @RequestMapping(method = RequestMethod.POST)
     public void joinArmy(){
         //TODO
     }
 
+    @PreAuthorize("hasRole('HUMAN_RELATIONSHIPS')")
     @RequestMapping(method = RequestMethod.POST, path = "/promote/{name}")
     public void promotePrivate(@PathVariable(value = "name") String name){
         //TODO
     }
 
+    @PreAuthorize("hasRole('HUMAN_RELATIONSHIPS')")
     @RequestMapping(method = RequestMethod.POST, path = "/discharge/{name}")
     public void dischargeSoldier(@PathVariable(value = "name") String name){
         //TODO
     }
 
+    @PreAuthorize("hasRole('GENERAL')")
     @RequestMapping(method = RequestMethod.GET, path = "/nuke")
     public String launchNukes(){
         return "The world ends. Not with a bang but a whimper";
