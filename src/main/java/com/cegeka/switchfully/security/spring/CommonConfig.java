@@ -1,5 +1,6 @@
 package com.cegeka.switchfully.security.spring;
 
+import com.cegeka.switchfully.security.rest.Role;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -26,4 +27,5 @@ public class CommonConfig {
         );
         return mapper;
     }
+
 }

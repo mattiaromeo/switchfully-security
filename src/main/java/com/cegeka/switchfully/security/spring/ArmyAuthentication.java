@@ -1,5 +1,8 @@
 package com.cegeka.switchfully.security.spring;
 
+import com.cegeka.switchfully.security.rest.ResourceFeatures;
+import com.cegeka.switchfully.security.rest.Role;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
@@ -12,15 +15,17 @@ import static com.google.common.collect.Lists.newArrayList;
 
 public class ArmyAuthentication implements Authentication {
 
+
     private String username;
     private String credentials;
     private List<SimpleGrantedAuthority> roles = newArrayList();
     private boolean isAuthenticated = true;
 
-    public ArmyAuthentication(String username, String credentials, List<String> roles) {
+    public ArmyAuthentication(String username, String credentials, List<Role> roles) {
         this.username = username;
         this.roles = roles.stream()
-                .map(SimpleGrantedAuthority::new)
+                .map(role->ResourceFeatures.getFeaturesForRole(role))
+                .flatMap(featureList->featureList.stream()).map(feature -> new SimpleGrantedAuthority(feature.name()))
                 .collect(Collectors.toList());
         this.credentials = credentials;
     }

@@ -2,6 +2,7 @@ package com.cegeka.switchfully.security.spring;
 
 import com.cegeka.switchfully.security.external.authentication.ExternalAuthenticaton;
 import com.cegeka.switchfully.security.external.authentication.FakeAuthenticationService;
+import com.cegeka.switchfully.security.rest.ResourceFeatures;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.AuthenticationProvider;
 import org.springframework.security.authentication.BadCredentialsException;
@@ -10,8 +11,11 @@ import org.springframework.security.core.Authentication;
 import org.springframework.security.core.AuthenticationException;
 import org.springframework.stereotype.Component;
 
+import java.util.stream.Collectors;
+
 @Component
 public class ArmyAuthenticationProvider implements AuthenticationProvider {
+
 
     @Autowired
     private FakeAuthenticationService fakeAuthenticationService;
